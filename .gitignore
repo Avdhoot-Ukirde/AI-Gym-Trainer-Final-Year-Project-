@@ -28,3 +28,7 @@ Main App/*.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Downloaded MediaPipe model (retrieved automatically on first run)
+Main App/ml_models/*.task
+Main App/ml_models/*.task.download
