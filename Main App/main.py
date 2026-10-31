@@ -69,7 +69,7 @@ def main() -> None:
 
     st.set_page_config(
         page_icon="🏋️",
-        page_title="AI Gym Coach | Avdhoot Ukirde",
+        page_title="AI Gym Trainer | Avdhoot Ukirde",
         initial_sidebar_state="expanded",
         layout="centered",
     )
@@ -217,7 +217,7 @@ def main() -> None:
             for label, key, suffix in metric_labels.get(exercise, []):
                 st.metric(label, f"{st.session_state.get(key, 'N/A')}{suffix}")
 
-    st.title("AI Gym Coach")
+    st.title("AI Gym Trainer")
     st.markdown(
         "#### Real-time exercise tracking with MediaPipe pose estimation"
     )
