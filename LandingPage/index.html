@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AI Gym Coach is a webcam-based exercise tracking project using Python, Streamlit, MediaPipe and OpenCV. Maintained by Avdhoot Ukirde." />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>AI Gym Coach | Avdhoot Ukirde</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      @font-face {
+        font-family: "Averta";
+        src: url("fonts/Averta.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        max-width: 1000px;
+        margin: 48px auto 0;
+      }
+      .feature-card {
+        border: 1px solid rgba(255,255,255,.1);
+        background: rgba(255,255,255,.025);
+        padding: 26px;
+        text-align: left;
+      }
+      .feature-card span {
+        display: block;
+        color: var(--amber);
+        font-size: 11px;
+        letter-spacing: .14em;
+        margin-bottom: 12px;
+      }
+      .feature-card h3 {
+        color: var(--text);
+        font-family: var(--font-display);
+        font-size: 25px;
+        margin-bottom: 8px;
+      }
+      .feature-card p, .setup-copy {
+        color: #888;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .setup-panel {
+        max-width: 850px;
+        margin: 42px auto 0;
+        padding: 28px;
+        text-align: left;
+        border: 1px solid rgba(245,166,35,.25);
+        background: rgba(255,255,255,.025);
+      }
+      .setup-panel pre {
+        overflow-x: auto;
+        padding: 18px;
+        margin-top: 18px;
+        background: #050505;
+        color: #f5a623;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .owner-line { color: #777; font-size: 13px; margin-top: 22px; }
+      @media (max-width: 760px) {
+        .feature-grid { grid-template-columns: 1fr; margin-left: 8px; margin-right: 8px; }
+        .setup-panel { padding: 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-overlay" aria-hidden="true"></div>
+
+    <nav class="nav">
+      <div class="nav-logo">
+        <span class="logo-bracket">(</span>AI GYM COACH<span class="logo-bracket">)</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#technology">Technology</a>
+        <a href="#setup">Get started</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-tag">
+          <span class="dot"></span>
+          <span>COMPUTER VISION · POSE ESTIMATION · FITNESS</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="line-one">REAL-TIME</span>
+          <span class="line-two">AI GYM<br />COACH</span>
+        </h1>
+
+        <p class="hero-sub">
+          A webcam-based workout assistant that tracks exercise repetitions
+          and estimates movement form using MediaPipe pose landmarks.
+        </p>
+
+        <div class="hero-cta-row">
+          <a href="https://github.com/Avdhoot-Ukirde/AI-Gym-Trainer-Final-Year-Project-"
+             target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <span>View source code</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="#setup" class="btn-ghost">LOCAL SETUP ↓</a>
+        </div>
+
+        <div class="metrics-strip">
+          <div class="metric">
+            <span class="metric-val">05</span>
+            <span class="metric-label">Supported exercises</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric">
+            <span class="metric-val">AI</span>
+            <span class="metric-label">Pose estimation</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric">
+            <span class="metric-val">CV</span>
+            <span class="metric-label">Live camera analysis</span>
+          </div>
+        </div>
+        <p class="owner-line">Maintained and customized by Avdhoot Ukirde · Fork-based project</p>
+      </section>
+
+      <section class="visuals" id="features">
+        <div class="section-header center-header">
+          <span class="section-tag">// EXERCISE TRACKING</span>
+          <h2 class="section-title">Train with<br /><em>real-time feedback</em></h2>
+          <p class="section-desc">
+            Select an exercise, set a target, and use your camera to track
+            movement and repetitions.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span>01 / LOWER BODY</span>
+            <h3>Squats</h3>
+            <p>Rep counting from knee-angle transitions, with knee and back-angle indicators.</p>
+          </article>
+          <article class="feature-card">
+            <span>02 / UPPER BODY</span>
+            <h3>Push-ups</h3>
+            <p>Elbow-angle repetition counting with body-alignment and hip-position estimates.</p>
+          </article>
+          <article class="feature-card">
+            <span>03 / ARMS</span>
+            <h3>Biceps curls</h3>
+            <p>Tracks elbow movement and provides shoulder-stability and torso-swing indicators.</p>
+          </article>
+          <article class="feature-card">
+            <span>04 / SHOULDERS</span>
+            <h3>Shoulder press</h3>
+            <p>Tracks elbow extension and estimates back-arch position during the press.</p>
+          </article>
+          <article class="feature-card">
+            <span>05 / LOWER BODY</span>
+            <h3>Lunges</h3>
+            <p>Counts lunge repetitions and displays front-knee angle, torso angle and balance estimate.</p>
+          </article>
+          <article class="feature-card">
+            <span>06 / WORKOUT LOG</span>
+            <h3>Session history</h3>
+            <p>Stores completed exercise sets, repetitions and duration in a local SQLite database.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="demo" id="technology">
+        <div class="section-header center-header">
+          <span class="section-tag">// UNDER THE HOOD</span>
+          <h2 class="section-title">Built with<br /><em>practical AI tools</em></h2>
+          <p class="section-desc">
+            The core workout experience uses computer vision. AI-generated
+            voice coaching is an optional integration.
+          </p>
+        </div>
+        <div class="feature-row">
+          <div class="feature"><span class="feature-icon">⬡</span><strong>Python + Streamlit</strong><p>Interactive workout interface</p></div>
+          <div class="feature"><span class="feature-icon">⬡</span><strong>MediaPipe</strong><p>Human pose landmarks</p></div>
+          <div class="feature"><span class="feature-icon">⬡</span><strong>OpenCV</strong><p>Frame processing and overlays</p></div>
+          <div class="feature"><span class="feature-icon">⬡</span><strong>Groq + gTTS</strong><p>Optional voice coaching</p></div>
+        </div>
+      </section>
+
+      <section class="demo" id="setup">
+        <div class="section-header center-header">
+          <span class="section-tag">// GET STARTED</span>
+          <h2 class="section-title">Run it<br /><em>on your machine</em></h2>
+          <p class="section-desc">
+            Use Python 3.11, install the project dependencies, then start
+            Streamlit from the Main App directory.
+          </p>
+        </div>
+        <div class="setup-panel">
+          <p class="setup-copy">Windows PowerShell</p>
+          <pre><code>cd "Main App"
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+streamlit run main.py</code></pre>
+          <p class="setup-copy" style="margin-top:18px;">
+            A webcam and browser camera permission are required. See the
+            repository README for full setup, optional Groq configuration,
+            deployment instructions, and troubleshooting.
+          </p>
+          <div class="hero-cta-row" style="justify-content:flex-start; margin-top:22px;">
+            <a class="btn-primary" href="https://github.com/Avdhoot-Ukirde/AI-Gym-Trainer-Final-Year-Project-"
+               target="_blank" rel="noopener noreferrer">Full installation guide</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="contact-inner">
+          <span class="section-tag">// PROJECT MAINTAINER</span>
+          <h2 class="contact-title">Avdhoot<br /><em>Ukirde</em></h2>
+          <p class="contact-desc">
+            Interested in artificial intelligence, machine learning,
+            computer vision and robotics.
+          </p>
+          <div class="social-grid">
+            <a href="https://github.com/Avdhoot-Ukirde" target="_blank"
+               rel="noopener noreferrer" class="social-btn">GitHub</a>
+            <a href="mailto:avdhootukirde106@gmail.com" class="social-btn">Email</a>
+          </div>
+        </div>
+        <footer class="footer">
+          <span>© 2026 Avdhoot Ukirde · AI Gym Coach</span>
+          <span class="footer-mono">BUILT WITH PYTHON + COMPUTER VISION</span>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>

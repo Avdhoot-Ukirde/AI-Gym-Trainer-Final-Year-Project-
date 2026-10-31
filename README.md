@@ -1,53 +1,47 @@
-# AI Gym Coach — Real-Time Exercise Form Assistant
+# AI Gym Trainer — Real-Time Exercise Form Assistant
 
-**Maintained by Avdhoot Ukirde**  
-A computer-vision workout assistant built with Python, Streamlit, MediaPipe Pose Landmarker, OpenCV and optional Groq-powered voice coaching.
+**Maintained by Avdhoot Ukirde**
 
-This repository is a fork that is being maintained and customized. The upstream implementation and its original contributors should continue to receive appropriate attribution. Review the upstream project's licensing terms before redistributing or relicensing any inherited code or assets.
+An independent, Streamlit-based AI fitness application that uses webcam video and MediaPipe Pose Landmarker to estimate exercise movement, count repetitions, display form indicators, and record workout summaries. Optional Groq-powered coaching and text-to-speech provide additional feedback.
 
-## Project overview
+> This repository is an independent GitHub repository, not a GitHub fork. Some inherited implementation and assets are adapted from [shradha-khapra/ai-gym-coach](https://github.com/shradha-khapra/ai-gym-coach). Please review the upstream project's licensing and attribution requirements before redistributing inherited material. No upstream license file was present in the source repository when this project was transferred; this repository does not claim ownership of third-party material.
 
-AI Gym Coach uses a webcam stream and MediaPipe pose landmarks to estimate exercise movement, count repetitions, display form-related metrics, and save workout summaries in a local SQLite database. If a Groq API key and internet access are configured, an optional language-model and text-to-speech pipeline can provide spoken coaching cues.
-
-### Supported exercises
-
-| Exercise | Rep-count signal | Additional displayed feedback |
-|---|---|---|
-| Squats | Knee angle | Knee angle, back angle and squat-depth state |
-| Push-ups | Elbow angle | Body alignment and hip position |
-| Dumbbell biceps curls | Elbow angle | Shoulder stability and torso-swing estimate |
-| Shoulder press | Elbow angle | Arm extension and back-arch estimate |
-| Lunges | Front knee angle | Torso angle and balance estimate |
-
-The displayed form indicators are heuristic estimates based on 2D pose landmarks. They are not medical assessments, a substitute for a qualified trainer, or a guarantee that an exercise is safe or correctly performed.
-
-## Main features
+## Features
 
 - Live webcam input through Streamlit WebRTC.
-- MediaPipe Pose Landmarker inference on video frames.
-- Five exercise-specific repetition detectors.
-- On-frame pose skeleton and exercise feedback overlays.
+- Human pose estimation with MediaPipe Pose Landmarker.
+- Exercise-specific repetition tracking for:
+  - Squats
+  - Push-ups
+  - Dumbbell biceps curls
+  - Shoulder press
+  - Lunges
+- Pose skeleton and exercise feedback overlays.
 - Workout plans with target sets and repetitions.
-- Per-user workout history stored in SQLite.
-- Optional Groq LLM coaching with gTTS audio output.
+- Per-profile workout history stored in SQLite.
+- Optional Groq LLM coaching with gTTS voice output.
 - Separate responsive HTML/CSS landing page.
+
+The form indicators are heuristic estimates based on 2D pose landmarks. They are not medical assessments, a substitute for a qualified trainer, or a guarantee that an exercise is safe or correctly performed.
 
 ## Technology stack
 
-- **Language:** Python
-- **Application UI:** Streamlit
-- **Real-time video:** streamlit-webrtc, OpenCV, PyAV
-- **Pose estimation:** MediaPipe Tasks — Pose Landmarker
-- **Numerical processing:** NumPy
-- **Workout history:** SQLite
-- **Optional AI coaching:** Groq API
-- **Text-to-speech:** gTTS
-- **Landing page:** HTML5 and CSS3
+| Area | Technology |
+|---|---|
+| Language | Python |
+| Application UI | Streamlit |
+| Real-time video | streamlit-webrtc, OpenCV, PyAV |
+| Pose estimation | MediaPipe Tasks — Pose Landmarker |
+| Numerical processing | NumPy |
+| Workout history | SQLite |
+| Optional AI coaching | Groq API |
+| Text-to-speech | gTTS |
+| Landing page | HTML5, CSS3 |
 
 ## Repository structure
 
 ```text
-ai-gym-coach/
+AI-Gym-Trainer-Final-Year-Project-/
 ├── LandingPage/
 │   ├── index.html
 │   ├── style.css
@@ -59,22 +53,8 @@ ai-gym-coach/
 │   ├── .env.example
 │   ├── core/
 │   ├── detectors/
-│   │   ├── biceps_curl.py
-│   │   ├── lunges.py
-│   │   ├── pushup.py
-│   │   ├── shoulder_press.py
-│   │   └── squat.py
-│   ├── ml_models/
-│   │   └── pose_landmarker_full.task
+│   ├── ml_models/          # model downloads here on first startup
 │   ├── services/
-│   │   ├── auth/
-│   │   ├── coaching/
-│   │   ├── config/
-│   │   ├── persistence/
-│   │   ├── state/
-│   │   ├── tracking/
-│   │   ├── ui/
-│   │   └── vision/
 │   ├── static/
 │   └── tutorial-info/
 ├── .gitignore
@@ -83,15 +63,13 @@ ai-gym-coach/
 
 ## Requirements
 
-- Python **3.11** is the recommended starting point for this dependency set.
-- A webcam or another camera accessible to the browser.
+- Python **3.11** is the recommended environment for this dependency set.
+- A webcam or camera accessible to the browser.
 - A modern browser with camera permissions enabled.
-- Internet access for package installation and optional Groq/gTTS services.
-- A Groq API key only if you want AI-generated coaching feedback.
+- Internet access for package installation and the first model download.
+- A Groq API key only if you want optional AI-generated coaching.
 
-The MediaPipe model file is included at `Main App/ml_models/pose_landmarker_full.task`. Keep this file in place; the video processor loads it when the application starts.
-
-<a id="quick-start"></a>
+The MediaPipe Pose Landmarker model is downloaded automatically on first startup from Google's version-pinned model storage URL and saved to `Main App/ml_models/pose_landmarker_full.task`. The application checks the downloaded file size before loading it. The model is approximately 9.4 MB, so the first launch requires an internet connection. The model is distributed under Apache 2.0 according to the MediaPipe project maintainer's clarification; see the [MediaPipe model documentation](https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker).
 
 ## Quick start — Windows
 
@@ -104,17 +82,6 @@ py -3.11 -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 Copy-Item .env.example .env
-```
-
-Open `Main App/.env` and optionally add your Groq API key:
-
-```dotenv
-GROQ_API_KEY=your_groq_api_key_here
-```
-
-Start the application from inside the **Main App** directory:
-
-```powershell
 streamlit run main.py
 ```
 
@@ -129,90 +96,70 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 cp .env.example .env
-```
-
-Optionally add `GROQ_API_KEY=your_groq_api_key_here` to `Main App/.env`, then run:
-
-```bash
 streamlit run main.py
 ```
 
-### Why run from Main App?
+## Optional Groq coaching
 
-The application currently loads its model and static assets relative to the working directory. Running Streamlit from `Main App` ensures it can find `ml_models/pose_landmarker_full.task` and `static/` without changing paths.
-
-## Configure optional AI coaching
-
-The exercise tracking interface can run without a Groq key. Without one, pose detection, repetition counting and workout history remain available, but LLM-generated coaching and speech are disabled.
-
-For local development, put the key in `Main App/.env`:
+The workout tracking features are designed to run without a Groq API key. To enable AI-generated coaching, add your key to `Main App/.env`:
 
 ```dotenv
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-Never commit a real `.env` file, API key, or Streamlit secrets file. The repository ignores local secrets. For Streamlit Community Cloud, add `GROQ_API_KEY` in the app's Secrets settings instead of placing it in source code.
+Never commit a real `.env` file, API key, or Streamlit secrets file. For Streamlit Community Cloud, add `GROQ_API_KEY` in the app's Secrets settings instead. gTTS also requires internet access.
 
-The voice feature also needs network access: Groq generates the coaching text and gTTS generates the audio. If either service is unavailable, the main workout interface should remain usable.
-
-## How to use the app
+## How to use
 
 1. Launch the Streamlit application.
 2. Enter a username to create or reopen a local workout profile.
-3. Choose an exercise, target sets and repetitions in the sidebar.
-4. Select **Start Workout**.
-5. Allow browser camera access and position your full body so the required joints are visible.
-6. Follow the on-screen repetition count and exercise-specific feedback.
-7. Select **End Workout** when finished.
-8. Review saved workout summaries in the Workout History section.
+3. Choose an exercise and set target sets and repetitions.
+4. Start the workout and allow browser camera access.
+5. Position your full body in view, with adequate lighting and relevant joints visible.
+6. Follow the repetition count and on-screen form indicators.
+7. End the workout and review the saved summary in Workout History.
 
-The username screen is a lightweight profile selector, not secure account authentication. The SQLite database is stored locally at `Main App/data.db` and is excluded from Git.
+The username screen is a lightweight local profile selector, not secure account authentication. Workout history is stored in `Main App/data.db`; the database is excluded from Git.
 
 ## Deploy on Streamlit Community Cloud
 
-1. Push this repository to GitHub.
-2. In Streamlit Community Cloud, create an app using this repository and the `main` branch.
-3. Set the app's **Main file path** to `Main App/main.py`.
-4. Choose Python 3.11 in the advanced settings if available.
-5. Add `GROQ_API_KEY` under the app's Secrets settings if you want AI coaching.
-6. Deploy and review the app logs if dependency installation or startup fails.
+1. Create a Streamlit Community Cloud app from this repository.
+2. Select the `main` branch.
+3. Set **Main file path** to `Main App/main.py`.
+4. Select Python 3.11 if the option is available.
+5. Add `GROQ_API_KEY` to Streamlit Secrets if optional AI coaching is required.
+6. Deploy and review the app logs if installation or startup fails.
 
-The Python dependency file and system package file are stored beside the Streamlit entry point in `Main App/`. Camera access on a deployed site requires a secure browser context (HTTPS) and the user's permission. Check your hosting provider's support for WebRTC connections before relying on remote webcam access.
-
-**Persistence note:** The included SQLite database is local to the running app. Some hosted environments have ephemeral storage, so workout history may not survive restarts or redeployments. Use a managed database if durable multi-user storage is required.
+The app requires camera permission and a secure browser context (HTTPS) for remote camera use. Confirm that your hosting provider supports WebRTC. SQLite storage on hosted services may be ephemeral, so workout history may not survive restarts or redeployments.
 
 ## Troubleshooting
 
-| Symptom | Checks |
+| Problem | What to check |
 |---|---|
-| Model file not found | Run Streamlit from `Main App` and confirm `ml_models/pose_landmarker_full.task` exists. |
+| First launch fails while loading the model | Confirm internet access; the app downloads the model automatically on first startup. |
 | Camera does not start | Use localhost or HTTPS, grant camera permission, and check browser/host WebRTC support. |
-| No pose detected | Improve lighting, move farther from the camera, and keep the relevant body joints visible. |
-| AI coach is unavailable | Confirm `GROQ_API_KEY` is set correctly and that the host can reach Groq. |
-| Spoken feedback is unavailable | Check internet connectivity; gTTS requires an external service. |
-| Package installation fails | Use Python 3.11, recreate the virtual environment, and reinstall `Main App/requirements.txt`. |
+| No pose is detected | Improve lighting, move farther from the camera, and keep the required body joints visible. |
+| AI coaching is unavailable | Confirm `GROQ_API_KEY` and outbound network access. |
+| Spoken feedback is unavailable | Check internet connectivity; gTTS uses an external service. |
+| Package installation fails | Use Python 3.11 and recreate the virtual environment. |
 
 ## Landing page
 
-Open `LandingPage/index.html` in a browser to view the project landing page. The landing page is a static introduction; the workout application itself runs separately through Streamlit.
+Open `LandingPage/index.html` in a browser. This is a static project introduction; the workout application runs separately through Streamlit.
 
 ## Safety and privacy
 
 - Exercise feedback is an approximate computer-vision aid and can be wrong when landmarks are occluded, lighting is poor, or camera placement is unsuitable.
 - Stop exercising if you experience pain, dizziness, or unusual discomfort. Seek guidance from a qualified professional when needed.
-- The application processes live camera frames for pose estimation. Do not assume the video stream is end-to-end private; review the hosting and WebRTC configuration before using it with sensitive footage.
+- Live frames are processed by the application for pose estimation. Review your hosting and WebRTC configuration before using sensitive footage.
 - Do not store API keys or private credentials in Git.
 
-## Credits and attribution
+## Attribution
 
-This repository is a fork of an existing AI Gym Coach project. The inherited source structure, detector logic, model asset and other upstream materials are not represented as entirely original work by the maintainer of this fork. Please consult the upstream repository and its license before redistributing or relicensing inherited material.
+This repository is maintained independently by Avdhoot Ukirde and is not linked to the upstream repository through GitHub's fork network. It contains adapted code and assets originating from [shradha-khapra/ai-gym-coach](https://github.com/shradha-khapra/ai-gym-coach). The source repository did not expose a LICENSE file at the time of transfer. Contact the original author and verify applicable rights before redistributing inherited code or assets. The MediaPipe model is downloaded from Google's official model storage; consult the [MediaPipe documentation](https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker) for model details.
 
 ## Maintainer
 
 **Avdhoot Ukirde**  
 GitHub: [@Avdhoot-Ukirde](https://github.com/Avdhoot-Ukirde)  
 Email: [avdhootukirde106@gmail.com](mailto:avdhootukirde106@gmail.com)
-
----
-
-If you improve the project, document the changes, test the relevant exercise detectors, and keep API keys and local workout databases out of version control.
