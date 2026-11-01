@@ -154,10 +154,6 @@ Open `LandingPage/index.html` in a browser. This is a static project introductio
 - Live frames are processed by the application for pose estimation. Review your hosting and WebRTC configuration before using sensitive footage.
 - Do not store API keys or private credentials in Git.
 
-## Attribution
-
-This repository is maintained independently by Avdhoot Ukirde and is not linked to the upstream repository through GitHub's fork network. It contains adapted code and assets originating from [shradha-khapra/ai-gym-coach](https://github.com/shradha-khapra/ai-gym-coach). The source repository did not expose a LICENSE file at the time of transfer. Contact the original author and verify applicable rights before redistributing inherited code or assets. The MediaPipe model is downloaded from Google's official model storage; consult the [MediaPipe documentation](https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker) for model details.
-
 ## Maintainer
 
 **Avdhoot Ukirde**  
